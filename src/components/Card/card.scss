@@ -1,0 +1,49 @@
+@import "../../scss/variables";
+
+.card {
+    position: relative;
+    width: -webkit-fill-available;
+    padding: 5px;
+
+    &__bottom {
+    
+        width: 150px;
+        height: 150px;
+        padding: 5px;
+        background-color: $background-black-card;
+        color: $font-black;
+
+        &-row_1, &-row_3 {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+        }
+        &-row_2 {
+            padding: 25px 1px;
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+        }
+        span {
+            width: 30px;
+            height: 30px;
+            background-color: white;
+            color:black;
+        }
+    }
+    &__top {
+        opacity: 0;
+        display: inline-block;
+        position: absolute;
+        bottom: 51px;
+        transition: all 0.5s;
+        &-button{
+            width: 35%;
+            height: 49px;
+            margin: 10px;
+        }
+        &:hover {
+            opacity: 100%;
+        }
+    }
+}

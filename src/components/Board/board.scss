@@ -1,0 +1,14 @@
+.board {
+    width: 970px;
+    height: 651px;
+    background-color: rgb(226, 182, 127);
+    border: 2px solid black;
+    display: inline-block;
+    padding: 2px;
+    
+
+    &__row_1, &__row_2,&__row_3, &__row_4{
+        display: flex;
+
+    }
+}
