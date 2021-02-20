@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
-import { startGame } from "../../api/StartGame"
+import React from 'react';
+import {base_array} from "../../api/config"
+
 
 import "./card.scss";
+
+/* const flip = require("../../api/turning")
+
+function activate (e) {
+    flip.turnRight(e.values);
+    flip.FlipCard()
+
+} */
 
 
 
 export default function Card(props) {
     const {card} = props;
-    const {id, values, status} = card;
+    const {values} = card;
+    
    
     return (
         <div className="card">

@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Card from '../Card';
 import "./board.scss";
 
-const Turn = require('../../api/turning');
-
 
 export default function Board(props) {
-
-    const array = [1,2,3,4]
-    Turn.turnRight(array);
+    console.log(props.valores[0].values);
     const { valores } = props;
+
     return (
         <div className="board">
             <div className="board__row_1">

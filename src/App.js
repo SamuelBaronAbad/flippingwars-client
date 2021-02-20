@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import Board from './components/Board';
-import { startGame } from './api/StartGame';
+import { StartGame } from './api/StartGame';
 
 import './App.scss';
-
-
 
 function App() {
 
   const [card, setCard] = useState([]);
   const [show, setShow] = useState(false);
   async function fillBoard(e) {
-    const result = await startGame();
+    const result = await StartGame();
     setCard(result);
     e.target.style.display = "none"
     setShow(true);

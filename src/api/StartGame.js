@@ -1,20 +1,19 @@
-import { apiVersion, base_path } from "./config";
+import { apiVersion, base_path, ArrayMain} from "./config";
 
 // Funcion para llamar las cartas y colocarlas
-
-export function startGame() {
+export function StartGame() {
     const url = `${base_path}/${apiVersion}/`;
     return fetch(url)
         .then(response => {
             return response.json();
         }).then(data => {
             //console.log("Dentro del fetch: ", data);
+           ArrayMain(data)
             return shuffle(data);
         })
 }
 
 // Funcion para barajar las cartas
-
 function shuffle(array) {
     var currIndex = array.length;
     var temp, randomIndex;
@@ -27,3 +26,4 @@ function shuffle(array) {
     }
     return array;
 }
+
