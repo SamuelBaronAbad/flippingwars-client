@@ -6,5 +6,5 @@ export var base_array = [];
 
 export function ArrayMain (array) {
     base_array = array;
-    console.log(base_array);
+    //console.log(base_array);
 }

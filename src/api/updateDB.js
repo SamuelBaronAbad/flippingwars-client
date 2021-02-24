@@ -1,7 +1,7 @@
 import { apiVersion, base_path } from "./config";
 
-export function UpdateCard(data) {
-    const url = `${base_path}/${apiVersion}/:id`;
+export default function UpdateDB(data) {
+    const url = `${base_path}/${apiVersion}/`;
     const params = {
         method: "PUT",
         body: JSON.stringify(data),
