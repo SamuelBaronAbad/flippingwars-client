@@ -1,44 +1,33 @@
 import React, { useState } from 'react';
-import Board from './components/Board';
-import { StartGame, newRecordGame, findGame } from './api/game';
-
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import MainHome from './pages/main';
+import routes from './config/routes';
 
 import './App.scss';
 
-const user = [{
-  name: "samuel",
-  status: true
-},{
-  name: "vero",
-  status: false
-}]
-
-
-
 function App() {
-  const [array_card, setArray_Card] = useState([]);
-  const [show, setShow] = useState(false);
 
-  async function fillBoard(e) {
-    const result = await StartGame();
-    const resultIdGame = await findGame();
-   
-    // Agregar estado para guardar el registro de la ultima partida
-    newRecordGame({"id":(resultIdGame[0].id)+1, "users": user, "cards": result})
-    setArray_Card(result);
-    e.target.style.display = "none"
-    setShow(true);
-
-   /*// TEST FUNCIONES 
-   */
+  // Switch hará que no continue renderizando el resto de componentes despues del primero
+  return (
+    <Router>
+      <Switch>
+        {routes.map((route, index) => (
+          <RouteWithSubRoutes key={index} {...route} />
+        ))}
+      </Switch>
+    </Router>
+  );
 }
 
-
+// Renderiza la route padre y les pasas la config a los hijas
+function RouteWithSubRoutes(route) {
+  
   return (
-    <div className="contenedor">
-      <button onClick={(e) => fillBoard(e)} >Start Game</button>
-      {show ? <Board valores={array_card} /> : null}
-    </div>
+    <Route 
+    path={route.path}
+    exact={route.exact}
+    render={props => <route.component routes={route.routes} {...props}/>}
+    />
   );
 }
 

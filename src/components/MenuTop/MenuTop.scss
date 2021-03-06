@@ -1,0 +1,36 @@
+@import "../../scss/variables";
+
+.menu-top {
+    display: flex;
+    button {
+        color: $font-light;
+        &:hover {
+            color: $primary-color-hover;
+        }
+        &:focus,
+        &:active {
+            color: $font-light;
+        }
+    }
+    &__center{
+        display: flex;
+        .ant-dropdown-trigger {
+            padding-right: 20px;
+            padding-left: 20px;
+            text-decoration: none !important;
+            color: black;
+        }
+    }
+
+    &__left {
+        &-logo {
+            width: 85px;
+            padding: 0 10px;
+        }
+    }
+
+    &__right {
+        position: absolute;
+        right: 0;
+    }
+}

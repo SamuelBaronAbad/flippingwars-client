@@ -1,41 +1,102 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from '../Card';
-import "./board.scss";
+import Users from '../Users';
+import { updateGame } from '../../api/game';
 
+
+import "./board.scss";
+const flipFunctions = require("../../api/flipFunctions")
+const { turnLeft, turnRight, arraySaved, checkFirstCardMoved } = flipFunctions;
 
 export default function Board(props) {
 
-    const { valores } = props;
+    const { game } = props;
+    const { cards, id, status, users } = game;
 
-    return (
-        <div className="board">
-            <div className="board__row_1">
-                {valores.filter((card, index) => index < 6)
-                    .map((card, index) => (
-                        <Card card={card} num={index} key={card.id} />
-                    ))}
+    const [baseArray, setBaseArray] = useState({
+        id: id,
+        cards: cards,
+        status: status,
+        users: users
+    });
 
-            </div>
-            <div className="board__row_2">
-                {valores.filter((card, index) => index > 5 && index < 12)
-                    .map((card, index) => (
-                        <Card card={card} num={index + 6} key={card.id} />
-                    ))}
+    function leftButton(e) {
+        if (baseArray.status) {
+            // HACER ESTO
+            console.log("no es tu turno");
+        }
+        baseArray.cards[e].values = turnLeft(baseArray.cards[e])
+        const resultado = checkFirstCardMoved(e, baseArray.cards);
+        if (!resultado) {
+            turnRight(baseArray.cards[e])
+            console.log("no puedes hacer este movimiento", baseArray);
+        } else {
+            const finalArray = arraySaved(baseArray.cards, resultado);
+            console.log();
+            setBaseArray({
+                "id": baseArray.id,
+                "cards": finalArray,
+                "status": !baseArray.status,
+                "users": baseArray.users
+            });
+            updateGame(baseArray)
+        }
+    }
 
-            </div>
-            <div className="board__row_3">
-                {valores.filter((card, index) => index > 11 && index < 18)
-                    .map((card, index) => (
-                        <Card card={card} num={index + 12} key={card.id} />
-                    ))}
-            </div>
-            <div className="board__row_4">
-                {valores.filter((card, index) => index > 17 && index < 24)
-                    .map((card, index) => (
-                        <Card card={card} num={index + 18} key={card.id} />
-                    ))}
-            </div>
-        </div>
-    )
 
+    function rightButton(e) {
+
+        baseArray.cards[e].values = turnRight(baseArray.cards[e])
+        const resultado = checkFirstCardMoved(e, baseArray.cards);
+        if (!resultado) {
+            turnLeft(baseArray.cards[e])
+            console.log("no puedes hacer este movimiento");
+        } else {
+            const finalArray = arraySaved(baseArray.cards, resultado);
+            setBaseArray({
+                "id": baseArray.id,
+                "cards": finalArray,
+                "status": !baseArray.status,
+                "users": baseArray.users
+            });
+            updateGame(baseArray)
+        }
+    }
+
+    if (baseArray.status || !baseArray.status) {
+        return (
+            <>
+                <Users user={users[0]} statusGame={baseArray.status} />
+                <div className="board">
+                    <div className="board__row_1">
+                        {baseArray.cards.filter((card, index) => index < 6)
+                            .map((card, index) => (
+                                <Card card={card} leftButton={leftButton} rightButton={rightButton} num={index} key={card.id} />
+                            ))
+                        }
+                    </div>
+                    <div className="board__row_2">
+                        {baseArray.cards.filter((card, index) => index > 5 && index < 12)
+                            .map((card, index) => (
+                                <Card card={card} leftButton={leftButton} rightButton={rightButton} num={index + 6} key={card.id} />
+                            ))}
+
+                    </div>
+                    <div className="board__row_3">
+                        {baseArray.cards.filter((card, index) => index > 11 && index < 18)
+                            .map((card, index) => (
+                                <Card card={card} leftButton={leftButton} rightButton={rightButton} num={index + 12} key={card.id} />
+                            ))}
+                    </div>
+                    <div className="board__row_4">
+                        {baseArray.cards.filter((card, index) => index > 17 && index < 24)
+                            .map((card, index) => (
+                                <Card card={card} leftButton={leftButton} rightButton={rightButton} num={index + 18} key={card.id} />
+                            ))}
+                    </div>
+                </div>
+                <Users user={users[1]} statusGame={!baseArray.status} />
+            </>
+        )
+    }
 }

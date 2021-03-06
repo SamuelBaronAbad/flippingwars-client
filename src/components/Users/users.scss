@@ -1,0 +1,21 @@
+@import "../../scss/variables";
+
+.users {
+display: flex;
+align-items: center;
+justify-content: center;
+height: 200px;
+width: 50%;
+
+&-container {
+    width: 50%;
+    background-color: white;
+    border: 2px solid black;
+    text-align: center;
+
+    h1 {
+        color: $font-black;
+        font-size: 40px;
+    }
+}
+}

@@ -1,8 +1,73 @@
 
+var poke;
+
+function arraySaved(baseArray, result) {
+    console.log(baseArray);
+    for (let i = 0; i < baseArray.length; i++) {
+        for (let j = 0; j < result.length; j++) {
+            if (result[j].id === baseArray[i].id) {
+                if (result[j].values !== baseArray[i].values
+                    || result[j].status !== baseArray[i].status) {
+                    baseArray[i] = result[j];
+                }
+            }
+        }
+    }
+    return baseArray;
+}
+
+// Checkean el STATE de las cartas
+
+function checkFlipRight(numCard, rightCard, base_array) {
+    const card = base_array[numCard]
+    if (rightCard === undefined
+        || card.status === rightCard.status
+        || !(rightCard.values[3] !== 0 && card.values[1] > rightCard.values[3])) {
+        console.log("es mas falso que pimpon");
+        return false;
+    } else {
+        return true
+    }
+}
+
+function checkFlipLeft(numCard, leftCard, base_array) {
+    const card = base_array[numCard]
+    if (leftCard === undefined
+        || card.status === leftCard.status
+        || !(leftCard.values[1] !== 0 && card.values[3] > leftCard.values[1])) {
+        console.log("es mas falso que pimpon");
+        return false;
+    } else {
+        return true
+    }
+}
+
+function checkFlipUp(numCard, upCard, base_array) {
+    const card = base_array[numCard]
+    if (upCard === undefined
+        || card.status === upCard.status
+        || !(upCard.values[2] !== 0 && card.values[0] > upCard.values[2])) {
+        console.log("es mas falso que pimpon");
+        return false;
+    } else {
+        return true
+    }
+}
+
+function checkFlipDown(numCard, downCard, base_array) {
+    const card = base_array[numCard]
+    if (downCard === undefined
+        || card.status === downCard.status
+        || !(downCard.values[0] !== 0 && card.values[2] > downCard.values[0])) {
+        console.log("es mas falso que pimpon");
+        return false;
+    } else {
+        return true
+    }
+}
 
 // function turns the card to the left
 function turnLeft(card) {
-
     const array = card.values
     var currVal = 0;
     const newArray = [];
@@ -14,7 +79,7 @@ function turnLeft(card) {
         }
         currVal += 1;
     }
-    console.log(newArray);
+    console.log("ha girado a la izquierda");
     return newArray;
 }
 // function turns the card to the right
@@ -31,24 +96,40 @@ function turnRight(card) {
         }
         currVal += 1;
     }
-    console.log(newArray);
+    console.log("ha girado a la derecha");
     return newArray;
 
 }
 
-// numCard === index base_array
-function flipCard(numCard, base_array, reg) {
+// Giran las cartas
+function checkFirstCardMoved (numCard, base_array){
+    console.log("esto es poke: ", poke);
+    if (numCard !== poke){
+        console.log("Ha entrado y esta es poke: ", poke);
+        const resultado = flipCard(numCard, base_array);
+        if (!resultado) {
+            return false
+        }else{
+        poke = numCard;
+        console.log(poke);
+        return resultado;
+    }
+    }else {
+        return false;
+    }
+}
+function flipCard(numCard, base_array) {
+    
     console.log("Num Card: ", numCard, " Card: ", base_array[numCard]);
+    console.log(base_array);
 
     var rightCard;
-    if (!(base_array[numCard + 1] === base_array[6]
-        || base_array[numCard + 1] === base_array[12]
-        || base_array[numCard + 1] === base_array[18])
-        && base_array[numCard + 1] !== undefined) {
+    if (base_array[numCard + 1] !== undefined
+        && !(base_array[numCard + 1] === base_array[6]
+            || base_array[numCard + 1] === base_array[12]
+            || base_array[numCard + 1] === base_array[18])) {
         rightCard = base_array[numCard + 1];
     }
-
-
 
     var leftCard;
     if (!(base_array[numCard - 1] === base_array[5]
@@ -58,149 +139,112 @@ function flipCard(numCard, base_array, reg) {
         leftCard = base_array[numCard - 1];
     }
 
-
     var upCard;
     if (base_array[numCard - 6] !== undefined) {
         upCard = base_array[numCard - 6];
     }
-
 
     var downCard;
     if (base_array[numCard + 6] !== undefined) {
         downCard = base_array[numCard + 6];
     }
 
+    // CHECK STATUS
 
+    if (!checkFlipRight(numCard, rightCard, base_array)
+        && !checkFlipLeft(numCard, leftCard, base_array)
+        && !checkFlipUp(numCard, upCard, base_array)
+        && !checkFlipDown(numCard, downCard, base_array)) {
+        return false;
+    } else {
+        console.log("ha entrado en el flip");
+        flipRightCard(numCard, rightCard, base_array)
+        flipLeftCard(numCard, leftCard, base_array);
+        flipUpCard(numCard, upCard, base_array);
+        flipDownCard(numCard, downCard, base_array);
+        return base_array;
+    }
 
-    const updateArray = [];
-    updateArray.push.apply(updateArray, new Array([
-        ...flipRightCard(numCard, rightCard, base_array, reg),
-        ...flipLeftCard(numCard, leftCard, base_array, reg),
-        ...flipUpCard(numCard, upCard, base_array, reg),
-        ...flipDownCard(numCard, downCard, base_array, reg)]));
+    // FLIPS FUNCTIONS PER CARD
 
-    // Colocar en Board o Card, de donde llamamos a flipcard
-    /* updateArray.forEach(item => {
-        setData(item)
-    })
- */
-    console.log("dentro de flip: ", reg);
-    return updateArray;
 }
 
-// return card status (true: white, false: black)
-function flipRightCard(numCard, rightCard, base_array, reg) {
+function flipRightCard(numCard, rightCard, base_array) {
 
-    const card = base_array[numCard]
-    const updateArray = [];
     console.log("llamando Right");
     console.log("rightCard: ", rightCard);
 
-    if (rightCard !== undefined) {
-        if (card.status !== rightCard.status
-            && rightCard.values[3] !== 0
-            && card.values[1] > rightCard.values[3]) {
-            updateArray.push({ id: rightCard.id, values: rightCard.values, state: !rightCard.state });
-            reg += 1;
-            console.log("+1 a right: ", reg);
-
-            flipCard(numCard + 1, base_array, reg);
+    if (checkFlipRight(numCard, rightCard, base_array)) {
+        for (let index = 0; index < base_array.length; index++) {
+            if (rightCard.id === base_array[index].id) {
+                base_array[index] = { _id: base_array[index]._id, id: rightCard.id, values: rightCard.values, status: !rightCard.status }
+            }
         }
+        flipCard(numCard + 1, base_array);
     }
-    return updateArray;
+    return base_array;
 }
 
-function flipLeftCard(numCard, leftCard, base_array, reg) {
-    /*   // arrayCards is the main card list
-      numCard -= 1;
-      // obtenemos la carta de la lista
-      const card = arrayCards[numCard]
-      // carta izquierda, siempre será card -1
-      const leftCard = arrayCards[numCard - 1]
-       */
+function flipLeftCard(numCard, leftCard, base_array) {
 
-    const card = base_array[numCard]
-    const updateArray = [];
     console.log("llamando Left");
     console.log("leftCard: ", leftCard);
-
-    /*   console.log(card.values);
-      console.log(leftCard.values); */
-
-    if (leftCard !== undefined) {
-        if (card.status !== leftCard.status
-            && leftCard.values[1] !== 0
-            && card.values[3] > leftCard.values[1]) {
-            updateArray.push({ id: leftCard.id, values: leftCard.values, state: !leftCard.state });
-            reg += 1;
-            console.log("+1 a left: ", reg);
-
-            flipCard(numCard - 1, base_array, reg);
+    //const card = base_array[numCard]
+    /*     if (leftCard === undefined || card.status === leftCard.status) {
+            return base_array
+        } else if (leftCard.values[1] !== 0 && card.values[3] > leftCard.values[1]) { */
+    if (checkFlipLeft(numCard, leftCard, base_array)) {
+        for (let index = 0; index < base_array.length; index++) {
+            if (leftCard.id === base_array[index].id) {
+                base_array[index] = ({ _id: base_array[index]._id, id: leftCard.id, values: leftCard.values, status: !leftCard.status });
+            }
         }
+        flipCard(numCard - 1, base_array);
     }
-    return updateArray;
-
+    return base_array;
 }
-function flipUpCard(numCard, upCard, base_array, reg) {
-    /*   // arrayCards is the main card list
-      numCard -= 1;
-      // obtenemos la carta de la lista
-      const card = arrayCards[numCard]
-      // carta arriba, siempre será card -6
-      const upCard = arrayCards[numCard - 6]
-       */
 
-    const card = base_array[numCard]
-    const updateArray = [];
+function flipUpCard(numCard, upCard, base_array) {
+
     console.log("llamando Up");
     console.log("upCard: ", upCard);
-
-    if (upCard !== undefined) {
-        if (card.status !== upCard.status
-            && upCard.values[2] !== 0
-            && card.values[0] > upCard.values[2]) {
-            updateArray.push({ id: upCard.id, values: upCard.values, state: !upCard.state });
-            reg += 1;
-            console.log("+1 a up: ", reg);
-
-            flipCard(numCard - 6, base_array, reg);
+    if (checkFlipUp(numCard, upCard, base_array)) {
+        for (let index = 0; index < base_array.length; index++) {
+            if (upCard.id === base_array[index].id) {
+                base_array[index] = ({ _id: base_array[index]._id, id: upCard.id, values: upCard.values, status: !upCard.status });
+            }
+            flipCard(numCard - 6, base_array);
         }
     }
-    return updateArray;
+    return base_array;
 }
 
-function flipDownCard(numCard, downCard, base_array, reg) {
-    /*    // arrayCards is the main card list
-       numCard -= 1;
-       // obtenemos la carta de la lista
-       const card = arrayCards[numCard]
-       // carta abajo, siempre será card +6
-       const downCard = arrayCards[numCard + 6]
-        */
+function flipDownCard(numCard, downCard, base_array) {
 
     const card = base_array[numCard]
-    const updateArray = [];
-
     console.log("llamando Down");
     console.log("downCard: ", downCard);
 
-    if (downCard !== undefined) {
-        if (card.status !== downCard.status
-            && downCard.values[0] !== 0
-            && card.values[2] > downCard.values[0]) {
-            updateArray.push({ id: downCard.id, values: downCard.values, state: !downCard.state });
-            reg += 1;
-            console.log("+1 a down: ", reg);
-
-            flipCard(numCard + 6, base_array, reg);
+    if (downCard === undefined || card.status === downCard.status) {
+        return base_array
+    } else if (downCard.values[0] !== 0 && card.values[2] > downCard.values[0]) {
+        for (let index = 0; index < base_array.length; index++) {
+            if (downCard.id === base_array[index].id) {
+                base_array[index] = ({ _id: base_array[index]._id, id: downCard.id, values: downCard.values, status: !downCard.status });
+            }
         }
+        flipCard(numCard + 6, base_array);
     }
-    return updateArray;
+    return base_array;
 }
+
+
 
 module.exports = {
     turnRight,
     turnLeft,
+    arraySaved,
+    checkFirstCardMoved,
     flipCard
 }
 
