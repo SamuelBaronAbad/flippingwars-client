@@ -1,10 +1,10 @@
 import React, { useState} from 'react';
-import Board from '../../components/Board';
+import Board from '../../../../components/Board';
 
-import { StartGame, RecordingGame, findGame } from '../../api/game';
-import {findOneUser} from '../../api/user';
+import { StartGame, RecordingGame, findGame } from '../../../../api/FlipCards/game';
+import {findOneUser} from '../../../../api/user';
 
-import './game.scss';
+import './Game.scss';
 
 const user = [{
   name: "samuel",

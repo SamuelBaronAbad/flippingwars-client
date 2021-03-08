@@ -1,6 +1,9 @@
 import LayoutBasic from './../layouts/LayoutBasic';
-import MainHome from '../pages/main';
-import MainSignIn from '../pages/main/SignIn';
+import MainHome from '../pages/Main';
+
+import Games from '../pages/games';
+import FlipCards from '../pages/games/FlipCards';
+import ApiFC from '../pages/games/FlipCards/ApiGame';
 
 const routes = [
     {
@@ -14,8 +17,18 @@ const routes = [
                 exact: true
             },
             {
-                path:"/login",
-                componente: MainSignIn,
+                path:"/games",
+                component: Games,
+                exact: true
+            },
+            {
+                path:"/games/flip-cards",
+                component: FlipCards,
+                exact: true
+            },
+            {
+                path:"/games/flip-cards/apiFC",
+                component: ApiFC,
                 exact: true
             }
         ]

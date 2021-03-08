@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Card from '../Card';
 import Users from '../Users';
-import { updateGame } from '../../api/game';
+import { updateGame } from '../../api/FlipCards/game';
 
 
 import "./board.scss";
-const flipFunctions = require("../../api/flipFunctions")
+const flipFunctions = require("../../api/FlipCards/flipFunctions")
 const { turnLeft, turnRight, arraySaved, checkFirstCardMoved } = flipFunctions;
 
 export default function Board(props) {

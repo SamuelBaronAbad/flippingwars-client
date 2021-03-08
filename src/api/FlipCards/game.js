@@ -1,4 +1,4 @@
-import { apiVersion, base_path, ArrayMain, RecordedGame} from "./config";
+import { apiVersion, base_path, ArrayMain, RecordedGame} from "../config";
 
 
 //const {cards, users, id, status} = game;

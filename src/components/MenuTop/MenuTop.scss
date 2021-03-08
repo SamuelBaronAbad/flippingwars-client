@@ -1,24 +1,18 @@
 @import "../../scss/variables";
 
 .menu-top {
-    display: flex;
-    button {
-        color: $font-light;
-        &:hover {
-            color: $primary-color-hover;
-        }
-        &:focus,
-        &:active {
-            color: $font-light;
-        }
+    a {
+        text-decoration: none !important;
+        color: black;
     }
+
+    display: flex;
     &__center{
         display: flex;
         .ant-dropdown-trigger {
             padding-right: 20px;
             padding-left: 20px;
-            text-decoration: none !important;
-            color: black;
+         
         }
     }
 
@@ -32,5 +26,19 @@
     &__right {
         position: absolute;
         right: 0;
+        padding-right: 5px;
+        Button {
+            color: $font-dark;
+            background-color: $background-light;
+            &:hover {
+                color: $font-light;
+                background-color: $primary-color;
+            }
+        }
+        
+    }
+    &__modal-switch {
+        position: absolute;
+        right: 12px;
     }
 }
