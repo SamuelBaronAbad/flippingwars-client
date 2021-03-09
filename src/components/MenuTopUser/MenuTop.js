@@ -1,12 +1,10 @@
-import { createRef, useRef, useState } from 'react';
-import { Modal, Menu, Dropdown, Button, Switch } from 'antd';
+import {useState } from 'react';
+import { Modal, Menu, Dropdown, Button, Switch, notification } from 'antd';
 import logoRD from "../../assets/img/png/logo.png";
 import RegisterForm from '../ModalSignIn/RegisterForm';
 import LoginForm from '../ModalSignIn/LoginForm';
-import {
-    PoweroffOutlined as PoweroffIcon,
-    DownOutlined as DownIcon
-} from '@ant-design/icons';
+import {DownOutlined as DownIcon} from '@ant-design/icons';
+import {getAccessTokenApi, logOut} from '../../api/auth';
 
 import './MenuTop.scss';
 
@@ -27,6 +25,7 @@ export default function MenuTop() {
     const [showModal, setShowModal] = useState(false);
     const [showForm, setShowForm] = useState(true);
     const [checked, setChecked] = useState(true)
+    const [logout, setLogout] = useState(true)
 
 
     function onChange() {
@@ -37,6 +36,15 @@ export default function MenuTop() {
         setShowModal(false);
         setShowForm(true);
         setChecked(true)
+    }
+
+
+    function logoutButton () {
+        logOut();
+        notification["success"]({
+            message: "Hasta la próxima!"
+        })
+        setLogout(false)
     }
 
     return (
@@ -56,9 +64,12 @@ export default function MenuTop() {
                     <Item key="7">About us</Item>
                 </Menu>
                 <div className="menu-top__right">
-                    <Button type="link" onClick={() => setShowModal(true)}>
-                        ACCEDER
-                </Button>
+                    {logout && getAccessTokenApi() ? <Button className="menu-top__right_button" type="link" onClick={() => logoutButton()}>
+                        LogOut
+                </Button> : 
+                    <Button className="menu-top__right_button" type="link" onClick={() => setShowModal(true)}>
+                        Login
+                </Button>}
                 </div>
             </div>
             <Modal

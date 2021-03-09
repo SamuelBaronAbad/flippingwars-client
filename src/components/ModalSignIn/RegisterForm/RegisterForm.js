@@ -112,10 +112,8 @@ export default function RegisterForm() {
                     notification["error"]({
                         message: "Las contraseñas deben ser iguales"
                     });
-                },1000)
-                
+                },1000)                
             } else {
-                
                 // conectar con API y registrar usuario
                 // await: junto con ASYNC en la función ppal, le decimos que cuando llegue aquí que no continue hasta que termine esta función
                 const result = await signUpApi(input);
@@ -127,6 +125,7 @@ export default function RegisterForm() {
                     })
                 }, 1000)
                     resetForm();
+                    window.location.href= "/";
                 } else {
                     notification["error"]({
                         message: result.message

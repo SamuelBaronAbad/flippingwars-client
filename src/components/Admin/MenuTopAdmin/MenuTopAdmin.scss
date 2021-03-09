@@ -1,0 +1,28 @@
+@import "../../../scss/variables";
+
+.menu-top {
+    display: flex;
+    button {
+        color: $font-light;
+        &:hover {
+            color: $primary-color-hover;
+        }
+        &:focus,
+        &:active {
+            color: $font-light;
+        }
+    }
+
+    &__left {
+        &-logo {
+            width: 85px;
+            padding: 0 10px;
+            background-color: none;
+        }
+    }
+
+    &__right {
+        position: absolute;
+        right: 0;
+    }
+}

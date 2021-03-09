@@ -26,16 +26,20 @@
     &__right {
         position: absolute;
         right: 0;
-        padding-right: 5px;
-        Button {
-            color: $font-dark;
-            background-color: $background-light;
+        padding-right: 10px;
+        &_button {
+            color: $font-light;
+            background-color: $background-dark;
             &:hover {
-                color: $font-light;
+                color: $font-light !important;
                 background-color: $primary-color;
             }
-        }
-        
+            &:focus,
+            &:active{
+                color: $font-light !important;
+                background-color:  $primary-color !important;
+            }
+        } 
     }
     &__modal-switch {
         position: absolute;

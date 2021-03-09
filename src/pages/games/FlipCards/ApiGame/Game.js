@@ -2,7 +2,7 @@ import React, { useState} from 'react';
 import Board from '../../../../components/Board';
 
 import { StartGame, RecordingGame, findGame } from '../../../../api/FlipCards/game';
-import {findOneUser} from '../../../../api/user';
+//import {findOneUser} from '../../../../api/user';
 
 import './Game.scss';
 
@@ -17,14 +17,14 @@ const user = [{
 function App() {
   const [paramsGame, setParamsGames] = useState();
   const [show, setShow] = useState(false);
-  const email =  "peterpunkbaron@gmail.com";
+  //const email =  "peterpunkbaron@gmail.com";
   
  
   async function fillBoard(e) {
   
     const result = await StartGame();
     const resultIdGame = await findGame();
-    const userFind = await findOneUser(email)
+    //const userFind = await findOneUser(email)
 
     const params = {"id": (resultIdGame[0].id) + 1, "users": user, "cards": result, "status": true};
    // RecordingGame(params)
