@@ -78,7 +78,6 @@ export function findGame() {
             return response.json();
         })
         .then(data => {
-
             return data;
         })
         .catch(err => {

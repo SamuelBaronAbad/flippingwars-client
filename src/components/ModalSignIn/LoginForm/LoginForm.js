@@ -10,8 +10,9 @@ import jwtDecode from 'jwt-decode';
 
 import './LoginForm.scss'
 
-export default function LoginForm() {
+export default function LoginForm(props) {
     const { Item } = Form;
+    const {showModal, showButton} = props;
     const [input, setInput] = useState({
         email: "",
         password: ""
@@ -22,6 +23,12 @@ export default function LoginForm() {
             ...input,
             [e.target.name]: e.target.value
         })
+    }
+
+    const pressKey = (e) => {
+        if(e.key === "Enter"){
+            login();
+        }
     }
     
    async function login () {
@@ -44,17 +51,19 @@ export default function LoginForm() {
             notification["success"]({
                 message: "Login correcto"
             });
-            console.log(jwtDecode(accessToken));
+      
             if(jwtDecode(accessToken).role === "admin"){
                 window.location.href = "/admin"
             }else{
-                window.location.href = "/"
+               // window.location.reload();
+                showModal(false);
+                showButton(true)
             }
     }
 }
 
     return (
-        <Form className="login-form" onChange={onChange}>
+        <Form className="login-form" onChange={onChange} onKeyPress={pressKey}>
             <h3>Inicia Sesion</h3>
             <Item>
                 <Input

@@ -5,6 +5,7 @@ import LayoutAdmin from '../layouts/LayoutAdmin';
 import Games from '../pages/games';
 import FlipCards from '../pages/games/FlipCards';
 import ApiFC from '../pages/games/FlipCards/ApiGame';
+import Users from '../pages/Admin/Users';
 
 const routes = [
     {
@@ -17,7 +18,12 @@ const routes = [
                 component: AdminHome,
                 exact: true
             },
-        ]  
+            {
+                path: "/admin/users",
+                component: Users,
+                exact: true
+            }
+        ]
     },
     {
         path: "/",
@@ -30,23 +36,23 @@ const routes = [
                 exact: true
             },
             {
-                path:"/games",
+                path: "/games",
                 component: Games,
                 exact: true
             },
             {
-                path:"/games/flip-cards",
+                path: "/games/flip-cards",
                 component: FlipCards,
                 exact: true
             },
             {
-                path:"/games/flip-cards/apiFC",
+                path: "/games/flip-cards/apiFC",
                 component: ApiFC,
                 exact: true
             }
         ]
     }
-    
+
 ]
 
 export default routes;

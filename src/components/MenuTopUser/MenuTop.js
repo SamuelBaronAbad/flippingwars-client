@@ -65,7 +65,7 @@ export default function MenuTop() {
                 </Menu>
                 <div className="menu-top__right">
                     {logout && getAccessTokenApi() ? <Button className="menu-top__right_button" type="link" onClick={() => logoutButton()}>
-                        LogOut
+                        Logout
                 </Button> : 
                     <Button className="menu-top__right_button" type="link" onClick={() => setShowModal(true)}>
                         Login
@@ -85,7 +85,7 @@ export default function MenuTop() {
                     unCheckedChildren="Login"
                     onChange={onChange}
                 />
-                {showForm ? <LoginForm /> : <RegisterForm />}
+                {showForm ? <LoginForm showModal={setShowModal} showButton={setLogout}/> : <RegisterForm showModal={setShowModal}/>}
             </Modal>
         </>
     )

@@ -11,8 +11,9 @@ import { signUpApi } from '../../../api/user';
 import './RegisterForm.scss';
 
 
-export default function RegisterForm() {
+export default function RegisterForm(props) {
     const { Item } = Form;
+    const{showModal} = props;
     const [loading, setLoading] = useState(false)
     const [input, setInput] = useState({
         username: "",
@@ -94,6 +95,12 @@ export default function RegisterForm() {
         },2000)
     }
 
+    const pressKey = (e) => {
+        if(e.key === "Enter"){
+            register();
+        }
+    }
+
     const register = async () => {
         console.log(input);
         const emailVal = input.email;
@@ -105,6 +112,7 @@ export default function RegisterForm() {
             notification["error"]({
                 message: "Email, contraseñas y política de privacidad obligatorio"
             })
+            setLoading(false);
         }
         else {
             if (passwordVal !== rePasswordVal) {
@@ -112,7 +120,8 @@ export default function RegisterForm() {
                     notification["error"]({
                         message: "Las contraseñas deben ser iguales"
                     });
-                },1000)                
+                },1000)  
+                setLoading(false);              
             } else {
                 // conectar con API y registrar usuario
                 // await: junto con ASYNC en la función ppal, le decimos que cuando llegue aquí que no continue hasta que termine esta función
@@ -125,11 +134,12 @@ export default function RegisterForm() {
                     })
                 }, 1000)
                     resetForm();
-                    window.location.href= "/";
+                    showModal(false);
                 } else {
                     notification["error"]({
                         message: result.message
                     })
+                    setLoading(false);
                 }
 
             }
@@ -139,7 +149,7 @@ export default function RegisterForm() {
 
 
     return (
-        <Form className="register-form" onChange={changeForm}>
+        <Form className="register-form" onChange={changeForm} onKeyPress={pressKey}>
             <h3>Resgístrate</h3>
             <Item
 

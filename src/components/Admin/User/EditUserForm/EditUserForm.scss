@@ -1,0 +1,33 @@
+.edit-user-form {
+    .upload-avatar {
+        display: table;
+        margin: 0 auto;
+        border: 2px solid #9a9a9a;
+        border-style: dashed;
+        border-radius: 100px;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+    .form-edit {
+        text-align: center;
+        .ant-form-item {
+            margin-top: 10px;
+            margin-bottom: 10px;
+
+        }
+        .ant-select,
+        .ant-picker {
+            display: block;
+        }
+
+        &__input {
+            .ant-input-prefix {
+                color: rgb(77, 13, 77);
+                opacity: 0.4;
+            }
+        }
+        .btn-submit {
+            width: 100%;
+        }
+    }
+}

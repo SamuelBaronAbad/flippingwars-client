@@ -33,7 +33,6 @@ function checkUserLogin(setUser) {
             refreshAccessTokenApi(accessToken);
         }
     }else{
-        console.log(jwtDecode(accessToken));
         setUser({
             user: jwtDecode(accessToken),
             isLoading: false

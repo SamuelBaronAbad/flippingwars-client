@@ -4,7 +4,7 @@ import { Layout } from "antd";
 import MenuTopAdmin from '../components/Admin/MenuTopAdmin';
 import MenuSider from '../components/Admin/MenuSider';
 import useAuth from '../hooks/useAuth';
-import { getAccessTokenApi, getRefreshTokenApi } from "../api/auth";
+
 // Esto va a poder acceder al valor {user} del contexto AuthContext en authProvider, nos devolverá lo que contenga {user}
 //import useAuth from "../hooks/useAuth"
 
@@ -16,7 +16,6 @@ export default function LayoutAdmin(props) {
     const [menuCollapsed, setMenuCollapsed] = useState(false);
     const { Header, Content, Footer } = Layout;
     const { user, isLoading } = useAuth();
-    console.log(user);
 
     if (!user && !isLoading) {
         return (
@@ -25,6 +24,17 @@ export default function LayoutAdmin(props) {
                 <Redirect to="/"></Redirect>
             </>
         )
+    }
+
+    if (user && !isLoading){
+        if(user.role !== "admin"){
+            return (
+                <>
+                <Route path="/"></Route>
+                <Redirect to="/"></Redirect>
+                </>
+            )
+        }
     }
 
     return (
